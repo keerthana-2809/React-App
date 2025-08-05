@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import "./Table.css";
 
 const Table = () => {
   const [users, setUsers] = useState([]);
@@ -10,12 +11,9 @@ const Table = () => {
   }, []);
 
   return (
-    <div >
+    <div className="table-container">
       <h2>User Table</h2>
-      <input
-        type="text"
-        placeholder="Search by ID or Name..."
-      />
+      <input type="text" placeholder="Search by ID or Name..." />
       <table>
         <thead>
           <tr>
@@ -29,6 +27,7 @@ const Table = () => {
           {users.map((user, index) => (
             <tr
               key={user.id}
+              className={index % 2 === 0 ? "even-row" : "odd-row"}
             >
               <td>{user.id}</td>
               <td>{user.name}</td>
