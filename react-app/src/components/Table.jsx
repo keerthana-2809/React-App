@@ -1,20 +1,28 @@
 import React, { useEffect, useState } from "react";
+import { sortUsers, filterUsers, getSortIndicator } from "../utils";
 import "./Table.css";
 
 const Table = () => {
   const [users, setUsers] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
+  const [sortConfig, setSortConfig] = useState({ key: "", direction: "" });
 
   useEffect(() => {
     fetch("https://jsonplaceholder.typicode.com/users")
       .then((res) => res.json())
-      .then(setUsers);
+      .then(setUsers)
+      .catch(console.error);
   }, []);
-   const filteredUsers = users.filter(
-     (user) =>
-       user.id.toString().includes(searchTerm) ||
-       user.name.toLowerCase().includes(searchTerm.toLowerCase())
-   );
+
+  const handleSort = (key) => {
+    setSortConfig((prev) => ({
+      key,
+      direction: prev.key === key && prev.direction === "asc" ? "desc" : "asc",
+    }));
+  };
+
+  const filteredUsers = filterUsers(sortUsers(users, sortConfig), searchTerm);
+
   return (
     <div className="table-container">
       <div className="header-container">
@@ -30,8 +38,12 @@ const Table = () => {
       <table>
         <thead>
           <tr>
-            <th>ID</th>
-            <th>Name</th>
+            <th onClick={() => handleSort("id")}>
+              ID{getSortIndicator(sortConfig, "id")}
+            </th>
+            <th onClick={() => handleSort("name")}>
+              Name{getSortIndicator(sortConfig, "name")}
+            </th>
             <th>Address (City, Zip)</th>
             <th>Company Name</th>
           </tr>
