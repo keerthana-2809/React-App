@@ -27,3 +27,23 @@ td {
 .odd-row {
   background-color: #ffffff;
 }
+
+.header-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.search-input {
+  padding: 8px;
+  font-size: 14px;
+  width: 250px;
+}
+
+.no-data {
+  text-align: center;
+  padding: 20px;
+  color: #888;
+}
+
